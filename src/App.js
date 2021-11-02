@@ -1,24 +1,52 @@
-import logo from './logo.svg';
+import React, {useEffect, useState} from 'react';
 import './App.css';
 
+import axios from 'axios';
+
 function App() {
+  const [state, setState] = useState({
+    joke:''
+
+  })
+  useEffect( ()=> {
+    fetchData();
+  }, []);
+  const fetchData = async () => {
+    const result = await axios.get('https://api.chucknorris.io/jokes/random');
+    console.log(result.data.value);
+    setState({
+      ...state,
+      joke: result.data.value
+     
+    });
+
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  
+    <div className="container">
+      <div className="row">
+        <div className="col-12">
+        <h1 className="title">CHUCK NORRIS API</h1>
+        
+        </div>
+        <div className="col-6 searchJokeCol">
+          <div className="card">
+          <div className="card-header">
+             Search for a word
+            </div>
+            <div className="card-body">
+              <input type ="text"/>
+            </div>
+            </div>
+            <div>
+              <button className="btn btn-warning btn-lg">Generate Joke</button>
+            </div>
+          </div>
+          </div>
+          <h2 className="subTitle">HERE IS JOKE</h2>
+          <h4>{state.joke}</h4>
+     
+      </div>
   );
 }
 
